@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="circle">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Theme.StairsLight.SlideVertical">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <style name="BottomNavigation">
+        <item name="background">@drawable/bottom_navigation_corners</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="elevation">8dp</item>
+        <item name="labelVisibilityMode">unlabeled</item>
+    </style>
+
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/easy_graph"
+    app:startDestination="@id/easyFragmentMain">
+
+    <fragment
+        android:id="@+id/easyFragmentMain"
+        android:name="com.smartlum.smartlum.ui.devices.easy.EasyEffectsFragment"
+        android:label="EasyFragmentMain" />
+    <fragment
+        android:id="@+id/easySettingsFragment"
+        android:name="com.smartlum.smartlum.ui.devices.easy.EasySettingsFragment"
+        android:label="fragment_easy_settings"
+        tools:layout="@layout/fragment_easy_settings" />
+        <navigation
+            android:id="@+id/easyConfigurationGraph"
+            app:startDestination="@id/easySensLocationConfigureFragment">
+            <fragment
+                android:id="@+id/easySensLocationConfigureFragment"
+                android:name="com.smartlum.smartlum.ui.devices.easy.EasySensLocationConfigureFragment"
+                android:label="EasySensLocationConfigureFragment">
+                <action
+                    android:id="@+id/action_easySensLocationConfigureFragment_to_easySensDistanceConfigureFragment"
+                    app:destination="@id/easySensDistanceConfigureFragment" />
+                <argument
+                    android:name="BOT_SENSOR_CURRENT_DISTANCE"
+                    android:defaultValue="29"
+                    app:argType="integer" />
+            </fragment>
+            <fragment
+                android:id="@+id/easySensDistanceConfigureFragment"
+                android:name="com.smartlum.smartlum.ui.devices.easy.EasySensDistanceConfigureFragment"
+                android:label="EasySensDistanceConfigureFragment">
+                <action
+                    android:id="@+id/action_easySensDistanceConfigureFragment_to_easyStripTypeConfigureFragment"
+                    app:destination="@id/easyStripTypeConfigureFragment" />
+            </fragment>
+            <fragment
+                android:id="@+id/easyStripTypeConfigureFragment"
+                android:name="com.smartlum.smartlum.ui.devices.easy.EasyStripTypeConfigureFragment"
+                android:label="EasyStripTypeConfigureFragment" />
+        </navigation>
+</navigation>

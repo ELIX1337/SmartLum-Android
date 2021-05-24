@@ -1,0 +1,164 @@
+<resources>
+    <string name="app_name">Stairs Light</string>
+    <string name="feature_name">SL</string>
+
+    <string name="menu_filter">Filter</string>
+    <string name="menu_filter_uuid">Only devices advertising LBS UUID</string>
+    <string name="menu_filter_nearby">Only nearby devices</string>
+
+    <string name="unknown_device">Unknown Device</string>
+    <string name="turn_on">On</string>
+    <string name="turn_off">Off</string>
+    <string name="title_led_state">LED</string>
+    <string name="title_button_state">Button</string>
+    <string name="state">State</string>
+    <string name="button_pressed">Pressed</string>
+    <string name="button_released">Released</string>
+    <string name="button_unknown">Unknown</string>
+    <string name="led_summary">Toggle the switch to turn the LED 3 on or off.</string>
+    <string name="button_summary">Press Button 1 on the dev kit.</string>
+
+    <string name="location_permission_title">LOCATION PERMISSION REQUIRED</string>
+    <string name="location_permission_info">From Android 6.0 Marshmallow onwards the application requires Location permission in order to scan for Bluetooth Low Energy devices.
+      \n\nThis is because Bluetooth LE beacons, for example iBeacons or Eddystone, may be used to determine the phone\'s and user\'s location. <b>nRF Blinky</b> will not use this information in any way.</string>
+    <string name="location_permission_action">Grant permission</string>
+    <string name="location_permission_settings">Settings</string>
+
+    <string name="bluetooth_disabled_title">BLUETOOTH DISABLED</string>
+    <string name="bluetooth_disabled_info">The Bluetooth adapter is turned off. Click the button below to enable it.</string>
+    <string name="bluetooth_disabled_action">Enable</string>
+
+    <string name="blinky_guide_title">CAN\'T SEE YOUR BLINKY?</string>
+    <string name="blinky_guide_info">1. Make sure the DK is <b>turned on</b> and is connected to a power source using a micro USB cable or a coin cell is plugged in.
+        \n\n2. Make sure the <b>ble_app_blinky</b> firmware and SoftDevice are flashed.</string>
+    <string name="blinky_guide_location_info">3. Location is turned off. Some Android phones require it enabled in order to scan for Bluetooth LE devices. \t\tIf you are sure your Blinky is advertising and it doesn\'t show up here, click the button below to enable Location.</string>
+    <string name="blinky_guide_location_action">Enable</string>
+
+    <string name="not_supported_title">DEVICE NOT SUPPORTED</string>
+    <string name="not_supported_info">1. The Blinky service hasn\'t been found on the device\'s attribute table.
+		\n\n2. Make sure the DK is flashed with the correct firmware.
+		\n\n3. If you used the DK with another firmware before, the old services might have been cached by the system.</string>
+    <string name="not_supported_action">Fix and try again</string>
+
+    <string name="state_connecting">Connecting…</string>
+    <string name="state_initializing">Initializing…</string>
+
+    <!--  Error dialog  -->
+    <string name="error_header_found">Error found</string>
+    <string name="error_header_gone">No errors found</string>
+    <string name="animation">Animation</string>
+    <string name="animation_name">Animation name</string>
+    <string name="manual">Manual</string>
+    <string name="auto">Auto</string>
+    <string name="no_data">No Data</string>
+    <string name="current_distance">Sensor readings</string>
+    <string name="setting_the_distance_of_the_sensors">Setting the triggering distance of the sensors</string>
+    <string name="confirm">Confirm</string>
+    <string name="left">Left</string>
+    <string name="center">Center</string>
+    <string name="right">Right</string>
+    <string name="specify_bottom_sensor_location">Specify bottom sensor location</string>
+    <string name="specify_the_type_of_the_led_strip">Specify the type of the LED strip</string>
+    <string name="strip_type_colored">Colored</string>
+    <string name="strip_type_default">Default</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="step_by_step">Step by step</string>
+    <string name="strip_type">Strip type</string>
+    <string name="sharp">Sharp</string>
+    <string name="wave">Wave</string>
+    <string name="animations_speed">Animations speed</string>
+    <string name="random_color_mode">Random color mode</string>
+    <string name="single">Stairway</string>
+    <string name="multiple">Step</string>
+    <string name="adaptive_brightness">Adaptive brightness</string>
+    <string name="day_night_mode">Day/Night mode</string>
+    <string name="by_time">By time</string>
+    <string name="by_lightness">By lightness</string>
+    <string name="sensors_trigger_distance">Sensors trigger distance</string>
+    <string name="top_sensor">Top sensor</string>
+    <string name="bottom_sensor">Bottom sensor</string>
+    <string name="number_of_steps">Number of steps</string>
+    <string name="reset">Reset to factory settings</string>
+    <string name="home">Home</string>
+    <string name="scanner">Devices</string>
+    <string name="settings">Settings</string>
+    <string name="device_settings">Device settings</string>
+
+    <!--  Errors codes  -->
+    <string-array name="errors_name">
+        <item name="ERROR_CODE_1">Upper direction sensor error (CODE 1)</item>
+        <item name="ERROR_CODE_2">Upper light sensor error (CODE 2)</item>
+        <item name="ERROR_CODE_3">Lower direction sensor error (CODE 3)</item>
+        <item name="ERROR_CODE_4">Lower light sensor error (CODE 4)</item>
+        <item name="ERROR_CODE_5">Upper sensor error (CODE 5)</item>
+        <item name="ERROR_CODE_6">Bluetooth error (CODE 6)</item>
+        <item name="ERROR_CODE_7">Controller memory error (CODE 7)</item>
+        <item name="ERROR_CODE_8">Ladder error (CODE 8)</item>
+    </string-array>
+
+    <!--  Errors descriptions  -->
+    <string-array name="errors_description">
+        <item name="ERROR_CODE_1">The direction sensor on the upper sensor is not responding.
+            <br>Possible reasons: \n </br>
+            <br>1. Reason 1 \n </br>
+            <br>2. Reason 2 \n </br>
+        </item>
+        <item name="ERROR_CODE_2">Light sensor on upper sensor not responding.
+            <br>Possible reasons: \n </br>
+            <br>1. Reason 1 \n </br>
+            <br>2. Reason 2 \n </br>
+        </item>
+        <item name="ERROR_CODE_3">The direction sensor on the lower sensor does not respond.
+           <br>Possible reasons: \n </br>
+            <br>1. Reason 1 \n </br>
+            <br>2. Reason 2 \n </br>
+        </item>
+        <item name="ERROR_CODE_4">The light sensor on the lower sensor is not responding.
+             <br>Possible reasons: \n </br>
+            <br>1. Reason 1 \n </br>
+            <br>2. Reason 2 \n </br>
+        </item>
+        <item name="ERROR_CODE_5">Upper sensor not responding.
+            <br>Possible reasons: \n </br>
+            <br>1. Reason 1 \n </br>
+            <br>2. Reason 2 \n </br>
+        </item>
+        <item name="ERROR_CODE_6">Bluetooth module not responding.
+            <br>Possible reasons: \n </br>
+            <br>1. Reason 1 \n </br>
+            <br>2. Reason 2 \n </br>
+        </item>
+        <item name="ERROR_CODE_7">The memory on the controller is not responding.
+            <br>Possible reasons: \n </br>
+            <br>1. Reason 1 \n </br>
+            <br>2. Reason 2 \n </br>
+        </item>
+        <item name="ERROR_CODE_8">The stairs are not responding.
+            <br>Possible reasons: \n </br>
+            <br>1. Reason 1 \n </br>
+            <br>2. Reason 2 \n </br>
+        </item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="animation_static">Static</string>
+    <string name="animation_rainbow">Rainbow</string>
+    <string name="animation_full_rainbow">Full Rainbow</string>
+    <string name="animation_transfusion">Transfusion</string>
+    <string name="animation_tetris">Tetris</string>
+    <string name="from_bottom">From bottom</string>
+    <string name="from_top">From top</string>
+    <string name="to_center">To center</string>
+    <string name="from_center">From center</string>
+    <string name="animation_direction">Animation direction</string>
+    <string name="primary">Primary</string>
+    <string name="secondary">Secondary</string>
+    <string name="about_company">About</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="licences">Licences</string>
+    <string name="link_website">https://stairs-light.ru/</string>
+    <string name="link_policy">https://smart-lum.com/bitrix/templates/smart/images/policy.pdf</string>
+    <string name="link_instagram">https://www.instagram.com/stairs_light/</string>
+    <string name="link_vk">https://vk.com/stairslightofficial/</string>
+    <string name="link_youtube">https://www.youtube.com/channel/UCRxrsnH_05DfmOMovg25INw/</string>
+</resources>
