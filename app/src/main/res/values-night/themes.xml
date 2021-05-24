@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application dark-theme. -->
+    <style name="Theme.StairsLight" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="android:windowBackground">@color/sl_background_dark_night</item>
+
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/sl_secondary</item>                                            <!-- Button text, bottom navigation selection -->
+        <item name="colorPrimaryVariant">@color/sl_dark_night</item>                                      <!-- Status bar (time, battery etc.) -->
+        <item name="colorOnPrimary">@color/sl_secondary_night</item>                                      <!-- Slider label text -->
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/sl_secondary_night</item>                                      <!-- FAB background, Progress bars, Radio selection -->
+        <item name="colorSecondaryVariant">@color/sl_primary_night</item>
+        <item name="colorOnSecondary">@color/sl_deep_dark_night</item>                                    <!-- Status bar (time, battery etc.) -->
+
+        <item name="colorSurface">@color/sl_dark_night</item>                                             <!-- CardView, toolbar -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>          <!-- Status bar (time, battery etc.) -->
+        <item name="backgroundTint">@color/sl_dark_night</item>                                           <!-- Bottom navigation -->
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

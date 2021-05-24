@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/config_image_sens_location_stairs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_stairs_union" />
+
+    <ImageView
+        android:id="@+id/config_image_sens_location_bot_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:paddingHorizontal="50dp"
+        android:paddingVertical="20dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintEnd_toEndOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintTop_toTopOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintVertical_bias="0.917"
+        app:srcCompat="@drawable/ic_icon_sens_on_step"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/config_image_sens_location_bot_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintEnd_toStartOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintTop_toTopOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintVertical_bias="0.75"
+        app:srcCompat="@drawable/ic_icon_sens_bot_left" />
+
+    <ImageView
+        android:id="@+id/config_image_sens_location_bot_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintStart_toEndOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintTop_toTopOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintVertical_bias="0.75"
+        app:srcCompat="@drawable/ic_icon_sens_bot_right" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/config_group_bottom_sensors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="config_image_sens_location_bot_center,config_image_sens_location_bot_left,config_image_sens_location_bot_right"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/config_image_sens_location_top_center"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintEnd_toEndOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintStart_toStartOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintTop_toTopOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintVertical_bias="0.015"
+        app:srcCompat="@drawable/ic_icon_sens_on_step" />
+
+    <ImageView
+        android:id="@+id/config_image_sens_location_top_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintEnd_toEndOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toEndOf="@+id/config_image_sens_location_top_center"
+        app:srcCompat="@drawable/ic_icon_sens_top_right" />
+
+    <ImageView
+        android:id="@+id/config_image_sens_location_top_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintEnd_toStartOf="@+id/config_image_sens_location_top_center"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="@+id/config_image_sens_location_stairs"
+        app:srcCompat="@drawable/ic_icon_sens_top_left" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/config_group_top_sensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="config_image_sens_location_top_center,config_image_sens_location_top_left,config_image_sens_location_top_right" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/config_tg_sens_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/config_image_sens_location_stairs"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/config_tg_btn_sens_location_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:text="@string/left"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/config_tg_btn_sens_location_center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:text="@string/center"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/config_tg_btn_sens_location_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:text="@string/right" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <TextView
+        android:id="@+id/config_tv_sens_location_layout_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/specify_bottom_sensor_location"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/config_image_sens_location_stairs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

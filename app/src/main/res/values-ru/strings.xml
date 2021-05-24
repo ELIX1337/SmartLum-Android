@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">Stairs Light</string>
+    <string name="feature_name">SL</string>
+
+    <string name="menu_filter">Фильтр</string>
+    <string name="menu_filter_uuid">Only devices advertising LBS UUID</string>
+    <string name="menu_filter_nearby">Only nearby devices</string>
+
+    <string name="unknown_device">Неизвестное устройство</string>
+    <string name="turn_on">Вкл</string>
+    <string name="turn_off">Выкл</string>
+    <string name="title_led_state">LED</string>
+    <string name="title_button_state">Кнопка</string>
+    <string name="state">Состояние</string>
+    <string name="button_pressed">Нажата</string>
+    <string name="button_released">Отпущена</string>
+    <string name="button_unknown">Неизвестно</string>
+    <string name="led_summary">Используйте переключатель для управления LED 3 на плате.</string>
+    <string name="button_summary">Нажмите кнопку 1 на отладочной плате.</string>
+
+    <string name="location_permission_title">ТРЕБУЕТСЯ РАЗРЕШЕНИЕ НА МЕСТОПОЛОЖЕНИЕ</string>
+    <string name="location_permission_info">Начиная с Android 6.0 Marshmallow, приложениям необходимо разрешение на Геолокацию для сканирования устройств Bluetooth Low Energy.\n      \n\nЭто необходимо для безопасности работы с устройствами Bluetooth LE beacons. Наше приложение <b>не использует</b> информацию о вашей локации.</string>
+    <string name="location_permission_action">Предоставить разрешения</string>
+    <string name="location_permission_settings">Настройки</string>
+
+    <string name="bluetooth_disabled_title">BLUETOOTH ВЫКЛЮЧЕН</string>
+    <string name="bluetooth_disabled_info">Bluetooth выключен. Нажмите на кнопку чтобы включить.</string>
+    <string name="bluetooth_disabled_action">Включить</string>
+
+    <string name="blinky_guide_title">НЕ УДАЕТСЯ НАЙТИ УСТРОЙСТВО?</string>
+    <string name="blinky_guide_info">1. Убедитесь что на устройстве <b>включен Bluetooth</b> и оно подключено к питанию.
+        \n\n2. Убедитесь что вы находитесь на <b>достаточном расстоянии</b> от устройства.</string>
+    <string name="blinky_guide_location_info">3. Геолокация отключена. Некоторым смартфонам необходима служба геолокации для сканирования BLE устройств.\n\t\tНажмите на кнопку чтобы включить геолокацию на устройстве.</string>
+    <string name="blinky_guide_location_action">Включить</string>
+
+    <string name="not_supported_title">УСТРОЙСТВО НЕ ПОДДЕРЖИВАЕТСЯ</string>
+    <string name="not_supported_info">Не удалось распознать устройство (BLE SERVICES NOT FOUND).\nПопробуйте перезагрузить устройство или обратитесь в сервисный центр.</string>
+    <string name="not_supported_action">Исправить и попробовать снова</string>
+
+    <string name="state_connecting">Подключение…</string>
+    <string name="state_initializing">Инициализация…</string>
+    <string name="animation">Анимация</string>
+    <string name="animation_name">Название анимации</string>
+    <string name="manual">Ручная</string>
+    <string name="auto">Автоматическая</string>
+    <string name="no_data">Нет данных</string>
+    <string name="current_distance">Показания датчика</string>
+    <string name="setting_the_distance_of_the_sensors">Установка расстояния срабатывания датчиков</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="error_header_gone">Ошибок нет</string>
+    <string name="error_header_found">Обнаружена ошибка</string>
+    <string name="left">Слева</string>
+    <string name="center">Центр</string>
+    <string name="right">Справа</string>
+    <string name="specify_bottom_sensor_location">Укажите расположение нижнего датчика</string>
+    <string name="specify_the_type_of_the_led_strip">Укажите тип используемой ленты</string>
+    <string name="strip_type_colored">Цветная</string>
+    <string name="strip_type_default">Обычная</string>
+    <string name="dismiss">Отклонить</string>
+    <string name="step_by_step">Шаг за шагом</string>
+    <string name="strip_type">Тип ленты</string>
+    <string name="animations_speed">Скорость анимации</string>
+    <string name="random_color_mode">Режим случайного цвета</string>
+    <string name="adaptive_brightness">Адаптивная яркость</string>
+    <string name="day_night_mode">Режим день/ночь</string>
+    <string name="by_time">По времени</string>
+    <string name="by_lightness">По освещенности</string>
+    <string name="wave">Волна</string>
+    <string name="sensors_trigger_distance">Расстояние срабатывания датчиков</string>
+    <string name="top_sensor">Верхний датчик</string>
+    <string name="bottom_sensor">Нижний датчик</string>
+    <string name="number_of_steps">Количество ступеней</string>
+    <string name="reset">Сброс до заводских настроек</string>
+    <string name="home">Главная</string>
+    <string name="scanner">Устройства</string>
+    <string name="settings">Настройки</string>
+    <string name="device_settings">Настройки устройства</string>
+    <string name="sharp">Резкий</string>
+    <string name="single">Лестница</string>
+    <string name="multiple">Ступень</string>
+    <string name="link_instagram">https://www.instagram.com/stairs_light/</string>
+    <string name="link_vk">https://vk.com/stairslightofficial/</string>
+    <string name="link_youtube">https://www.youtube.com/channel/UCRxrsnH_05DfmOMovg25INw/</string>
+
+</resources>
