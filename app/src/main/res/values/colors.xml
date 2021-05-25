@@ -12,17 +12,17 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Dark theme colors-->
-    <color name="sl_primary_night">#39799D</color>
-    <color name="sl_secondary_night">#5FB4E3</color>
-    <color name="sl_background_dark_night">#1C1A26</color>
-    <color name="sl_dark_night">#242230</color>
+    <color name="sl_primary_night">#FFFFFF</color>
+    <color name="sl_secondary_night">#FFCF40</color>
+    <color name="sl_background_dark_night">#27323D</color>
+    <color name="sl_dark_night">#1D252D</color>
     <color name="sl_deep_dark_night">#212529</color>
 
     <!-- Light theme colors-->
-    <color name="sl_primary">#5FB4E3</color>
-    <color name="sl_secondary">#39799D</color>
+    <color name="sl_primary">#FFCF40</color>
+    <color name="sl_secondary">#27323D</color>
     <color name="sl_background">#F3F3F3</color>
-    <color name="sl_light">#8BCBEF</color>
+    <color name="sl_light">#27323D</color>
     <color name="sl_deep_light">#FFFFFF</color>
 
     <color name="colorGradientStart">#FF6200EE</color>

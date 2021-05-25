@@ -92,7 +92,7 @@ public class ConfigurationDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_StairsLight);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.Theme_SmartLum);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class ConfigurationDialog extends DialogFragment {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
-            dialog.getWindow().setWindowAnimations(R.style.Theme_StairsLight_SlideVertical);
+            dialog.getWindow().setWindowAnimations(R.style.Theme_SmartLum_SlideVertical);
         }
     }
 

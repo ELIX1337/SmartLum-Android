@@ -16,12 +16,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -34,6 +36,8 @@ import com.smartlum.smartlum.viewmodels.TorchereViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TorchereFragment#newInstance} factory method to
@@ -44,6 +48,12 @@ public class TorchereFragment extends Fragment {
     private TorchereViewModel viewModel;
 
     private CustomScrollView scrollView;
+    private MaterialCardView randomColorCard,
+            animationSpeedCard,
+            animationDirectionCard,
+            animationStepCard,
+            colorPickerCard;
+    private LinearLayout brightnessCard;
     private ColorPickerView colorPickerWheel;
     private CustomBrightnessSlider brightnessSlider;
     private MaterialButtonToggleGroup colorToggleGroup;
@@ -62,9 +72,12 @@ public class TorchereFragment extends Fragment {
     private RadioButton direction3;
     private RadioButton direction4;
     private Slider animOnSlider;
-    private Slider animOffSlider;
+    private Slider animStepSlider;
     private SwitchMaterial randomColorSwitch;
     private ShapeableImageView animationsHeaderArrow, directionHeaderArrow;
+
+    private ArrayList<View> hidingCells = new ArrayList<>();
+    private ArrayList<View> allCells = new ArrayList<>();
 
     private int primaryColor = Color.WHITE,
                 secondaryColor = Color.WHITE;
@@ -88,11 +101,17 @@ public class TorchereFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_torchere, container, false);
         final ViewGroup layout = view.findViewById(R.id.torchere_layout);
         layout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+
+        randomColorCard = view.findViewById(R.id.torchere_random_color_mode_container);
+        animationSpeedCard = view.findViewById(R.id.torchere_animation_speed_container);
+        animationDirectionCard = view.findViewById(R.id.torchere_animation_direction_container);
+        animationStepCard = view.findViewById(R.id.torchere_animation_step_container);
+        colorPickerCard = view.findViewById(R.id.color_picker_wheel_container);
+        brightnessCard = view.findViewById(R.id.torchere_brightness_container);
 
         scrollView            = view.findViewById(R.id.torchere_scroll_view);
         colorPickerWheel      = view.findViewById(R.id.torchere_color_picker_wheel);
@@ -119,8 +138,20 @@ public class TorchereFragment extends Fragment {
         animationsHeaderArrow = view.findViewById(R.id.torchere_animations_header_arrow);
         directionHeaderArrow  = view.findViewById(R.id.torchere_animation_direction_header_arrow);
         animOnSlider          = view.findViewById(R.id.torchere_animation_on_speed);
-        animOffSlider         = view.findViewById(R.id.torchere_animation_off_speed);
+        animStepSlider        = view.findViewById(R.id.torchere_animation_step_slider);
         randomColorSwitch     = view.findViewById(R.id.torchere_random_color_mode);
+
+        animStepSlider.setValueFrom(0);
+        animStepSlider.setValueTo(10);
+
+        allCells.add(randomColorCard);
+        allCells.add(animationSpeedCard);
+        allCells.add(animationDirectionCard);
+        allCells.add(animationStepCard);
+        allCells.add(primaryColorBtn);
+        allCells.add(secondaryColorBtn);
+        allCells.add(colorPickerCard);
+        allCells.add(brightnessCard);
 
         colorPickerWheel.setVisibility(View.VISIBLE);
         colorPickerWheel.addOnColorChangedListener(selectedColor -> {
@@ -153,7 +184,7 @@ public class TorchereFragment extends Fragment {
         animRadioGroup.setOnCheckedChangeListener(this::onAnimationModeCheckedChange);
         directionRadioGroup.setOnCheckedChangeListener(this::onDirectionCheckedChange);
         animOnSlider.addOnChangeListener(this::onSliderValueChange);
-        animOffSlider.addOnChangeListener(this::onSliderValueChange);
+        animStepSlider.addOnChangeListener(this::onSliderValueChange);
         randomColorSwitch.setOnCheckedChangeListener(this::onSwitchRandomStateChange);
         return view;
     }
@@ -179,23 +210,50 @@ public class TorchereFragment extends Fragment {
         viewModel.getRandomColor().observe(getViewLifecycleOwner(), data -> randomColorSwitch.setChecked(data));
         viewModel.getAnimationMode().observe(getViewLifecycleOwner(), data -> {
             setAnimationName(data);
+            hidingCells.clear();
             switch (data) {
                 case 1:
                     animation1.setChecked(true);
                     break;
                 case 2:
                     animation2.setChecked(true);
+                    randomColorCard.setVisibility(View.GONE);
+                    hidingCells.add(randomColorCard);
                     break;
                 case 3:
                     animation3.setChecked(true);
+                    animationStepCard.setVisibility(View.GONE);
+                    animationDirectionCard.setVisibility(View.GONE);
+                    hidingCells.add(animationStepCard);
+                    hidingCells.add(animationDirectionCard);
                     break;
                 case 4:
                     animation4.setChecked(true);
+                    animationStepCard.setVisibility(View.GONE);
+                    animationDirectionCard.setVisibility(View.GONE);
+                    hidingCells.add(animationStepCard);
+                    hidingCells.add(animationDirectionCard);
+                    hidingCells.add(randomColorCard);
+                    hidingCells.add(primaryColorBtn);
+                    hidingCells.add(secondaryColorBtn);
+                    hidingCells.add(colorPickerCard);
+                    hidingCells.add(brightnessCard);
                     break;
                 case 5:
                     animation5.setChecked(true);
+                    animationStepCard.setVisibility(View.GONE);
+                    hidingCells.add(animationStepCard);
+                    hidingCells.add(randomColorCard);
                     break;
                 case 6:
+                    animationStepCard.setVisibility(View.GONE);
+                    animationSpeedCard.setVisibility(View.GONE);
+                    animationDirectionCard.setVisibility(View.GONE);
+                    hidingCells.add(animationStepCard);
+                    hidingCells.add(animationSpeedCard);
+                    hidingCells.add(animationDirectionCard);
+                    hidingCells.add(randomColorCard);
+                    hidingCells.add(secondaryColorBtn);
                     animation6.setChecked(true);
                     break;
             }
@@ -218,6 +276,7 @@ public class TorchereFragment extends Fragment {
             }
         });
         viewModel.getAnimationOnSpeed().observe(getViewLifecycleOwner(), data -> animOnSlider.setValue(data));
+        viewModel.getAnimationStep().observe(getViewLifecycleOwner(), data -> animStepSlider.setValue(data));
     }
 
     private boolean blockPageScroll(View v, @NotNull MotionEvent event) {
@@ -239,6 +298,7 @@ public class TorchereFragment extends Fragment {
         } else {
             animRadioGroup.setVisibility(View.VISIBLE);
             animationsHeaderArrow.animate().rotation(0);
+            scrollView.fullScroll(View.FOCUS_DOWN);
         }
     }
 
@@ -268,30 +328,51 @@ public class TorchereFragment extends Fragment {
     }
 
     private void onAnimationModeCheckedChange(RadioGroup group, int checkedId) {
+        hidingCells.clear();
+        showAllCells();
         if (checkedId == animation1.getId()) {
             viewModel.setAnimationMode(1);
             setAnimationName(1);
+            hidingCells.add(animationStepCard);
         }
         else if (checkedId == animation2.getId()) {
             viewModel.setAnimationMode(2);
             setAnimationName(2);
+            hidingCells.add(randomColorCard);
         }
         else if (checkedId == animation3.getId()) {
             viewModel.setAnimationMode(3);
             setAnimationName(3);
+            hidingCells.add(animationStepCard);
+            hidingCells.add(animationDirectionCard);
         }
         else if (checkedId == animation4.getId()) {
             viewModel.setAnimationMode(4);
             setAnimationName(4);
+            hidingCells.add(animationStepCard);
+            hidingCells.add(animationDirectionCard);
+            hidingCells.add(randomColorCard);
+            hidingCells.add(primaryColorBtn);
+            hidingCells.add(secondaryColorBtn);
+            hidingCells.add(colorPickerCard);
+            hidingCells.add(brightnessCard);
         }
         else if (checkedId == animation5.getId()) {
             viewModel.setAnimationMode(5);
             setAnimationName(5);
+            hidingCells.add(animationStepCard);
+            hidingCells.add(randomColorCard);
         }
         else if (checkedId == animation6.getId()) {
             viewModel.setAnimationMode(6);
             setAnimationName(6);
+            hidingCells.add(animationStepCard);
+            hidingCells.add(animationSpeedCard);
+            hidingCells.add(animationDirectionCard);
+            hidingCells.add(randomColorCard);
+            hidingCells.add(secondaryColorBtn);
         }
+        updateUI();
     }
 
     private void onDirectionCheckedChange(RadioGroup group, int checkedId) {
@@ -326,13 +407,24 @@ public class TorchereFragment extends Fragment {
             if (slider.equals(animOnSlider)) {
                 viewModel.setAnimationOnSpeed(Math.round(value));
             }
-            else if (slider.equals(animOffSlider)) {
-                //viewModel.setAnimationOffSpeed(Math.round(value));
+            else if (slider.equals(animStepSlider)) {
+                viewModel.setAnimationStep(Math.round(value));
             }
         }
     }
 
     private void onSwitchRandomStateChange(CompoundButton v, boolean isChecked) {
         viewModel.setRandomColor(isChecked);
+    }
+
+    private void updateUI() {
+        for (View cell: hidingCells) {
+            cell.setVisibility(View.GONE);
+        }
+    }
+    private void showAllCells() {
+        for (View cell: allCells) {
+            cell.setVisibility(View.VISIBLE);
+        }
     }
 }

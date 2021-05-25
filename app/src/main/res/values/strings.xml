@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Stairs Light</string>
+    <string name="app_name">SmartLum</string>
     <string name="feature_name">SL</string>
 
     <string name="menu_filter">Filter</string>
@@ -140,7 +140,7 @@
         </item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    и
     <string name="animation_static">Static</string>
     <string name="animation_rainbow">Rainbow</string>
     <string name="animation_full_rainbow">Full Rainbow</string>
@@ -156,9 +156,10 @@
     <string name="about_company">About</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="licences">Licences</string>
-    <string name="link_website">https://stairs-light.ru/</string>
+    <string name="link_website">https://smart-lum.com/</string>
     <string name="link_policy">https://smart-lum.com/bitrix/templates/smart/images/policy.pdf</string>
-    <string name="link_instagram">https://www.instagram.com/stairs_light/</string>
-    <string name="link_vk">https://vk.com/stairslightofficial/</string>
+    <string name="link_instagram">https://www.instagram.com/smartlum/</string>
+    <string name="link_vk">https://vk.com/smartlum/</string>
     <string name="link_youtube">https://www.youtube.com/channel/UCRxrsnH_05DfmOMovg25INw/</string>
+    <string name="animation_step">Animation step</string>
 </resources>

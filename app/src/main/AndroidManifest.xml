@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.StairsLight">
+        android:theme="@style/Theme.SmartLum">
         <activity android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:screenOrientation="portrait" />
         <activity android:name="com.smartlum.smartlum.ui.devices.easy.EasyActivity"

@@ -3,15 +3,20 @@ package com.smartlum.smartlum.ui.devices.torchere;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.dialog.MaterialDialogs;
 import com.smartlum.smartlum.R;
 import com.smartlum.smartlum.adapter.DiscoveredBluetoothDevice;
 import com.smartlum.smartlum.viewmodels.TorchereViewModel;
@@ -24,6 +29,7 @@ public class TorchereActivity extends AppCompatActivity {
     private TorchereViewModel viewModel;
 
     private View fragmentLayout;
+    private AlertDialog connectingDialog;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -44,19 +50,29 @@ public class TorchereActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(TorchereViewModel.class);
         viewModel.connect(device);
+        this.setTitle(deviceName);
+
+        connectingDialog = new MaterialAlertDialogBuilder(this)
+                .setTitle("Connecting to " + deviceName)
+                .create();
+        connectingDialog.setCancelable(false);
+
         viewModel.getConnectionState().observe(this, state -> {
-            this.setTitle("Alpha - " + state.getState().toString());
+            connectingDialog.setMessage(state.getState().toString());
             switch (state.getState()) {
                 case CONNECTING:
+                    connectingDialog.show();
                     break;
                 case INITIALIZING:
                     break;
-                case READY:;
+                case READY:
+                    connectingDialog.dismiss();
                     break;
                 case DISCONNECTED:
                     if (state instanceof ConnectionState.Disconnected) {
                         final ConnectionState.Disconnected stateWithReason = (ConnectionState.Disconnected) state;
                         if (stateWithReason.isNotSupported()) {
+                            connectingDialog.dismiss();
                             this.finish();
                         }
                     }
@@ -81,4 +97,5 @@ public class TorchereActivity extends AppCompatActivity {
         super.onDestroy();
         viewModel.disconnect();
     }
+
 }

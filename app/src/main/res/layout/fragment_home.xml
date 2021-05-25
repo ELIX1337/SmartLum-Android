@@ -29,15 +29,16 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:autoSizeTextType="uniform"
-        android:paddingVertical="0dp"
-        android:text="STAIRSLIGHT"
-        android:textColor="#39799D"
-        android:textStyle="bold"
         android:gravity="start|top"
+        android:paddingVertical="0dp"
+        android:text="SMARTLUM"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView8"
@@ -46,7 +47,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:autoSizeTextType="uniform"
-        android:text="АВТОМАТИЧЕСКИЕ ТЕХНОЛОГИИ ОСВЕЩЕНИЯ"
+        android:text="УМНЫЕ ТЕХНОЛОГИИ ОСВЕЩЕНИЯ"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView5" />
@@ -81,9 +82,11 @@
         android:layout_marginBottom="8dp"
         android:clickable="true"
         android:src="@drawable/ic_youtube"
+        android:visibility="gone"
         app:fabSize="mini"
         app:layout_constraintBottom_toTopOf="@+id/fab_vk"
-        app:layout_constraintEnd_toEndOf="@+id/fab_vk" />
+        app:layout_constraintEnd_toEndOf="@+id/fab_vk"
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_web"

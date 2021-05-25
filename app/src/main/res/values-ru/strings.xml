@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Stairs Light</string>
+    <string name="app_name">SmartLum</string>
     <string name="feature_name">SL</string>
 
     <string name="menu_filter">Фильтр</string>
@@ -78,8 +78,28 @@
     <string name="sharp">Резкий</string>
     <string name="single">Лестница</string>
     <string name="multiple">Ступень</string>
-    <string name="link_instagram">https://www.instagram.com/stairs_light/</string>
-    <string name="link_vk">https://vk.com/stairslightofficial/</string>
+
+    <string name="animation_static">Статика</string>
+    <string name="animation_rainbow">Радуга</string>
+    <string name="animation_full_rainbow">Переливание по радуге</string>
+    <string name="animation_transfusion">Переливание</string>
+    <string name="animation_tetris">Тетрис</string>
+    <string name="from_bottom">Снизу</string>
+    <string name="from_top">Сверху</string>
+    <string name="to_center">К центру</string>
+    <string name="from_center">Из центра</string>
+    <string name="animation_direction">Направление</string>
+    <string name="primary">Основной</string>
+    <string name="secondary">Дополнительный</string>
+    <string name="about_company">О нас</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="licences">Лицензии</string>
+
+    <string name="link_website">https://smart-lum.com/</string>
+    <string name="link_policy">https://smart-lum.com/bitrix/templates/smart/images/policy.pdf</string>
+    <string name="link_instagram">https://www.instagram.com/smartlum/</string>
+    <string name="link_vk">https://vk.com/smartlum/</string>
     <string name="link_youtube">https://www.youtube.com/channel/UCRxrsnH_05DfmOMovg25INw/</string>
+    <string name="animation_step">Шаг анимации</string>
 
 </resources>
