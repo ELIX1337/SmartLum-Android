@@ -36,7 +36,6 @@ public class TorchereActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_torchere);
-        this.setTitle("Alpha");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_container);

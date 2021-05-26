@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -77,7 +80,7 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_scanner, container, false);
-        requireActivity().setTitle("Scanner");
+        requireActivity().setTitle(getResources().getString(R.string.scanner));
 
         // Инициализируем UI
         progressBar              = view.findViewById(R.id.scan_progress_bar);
@@ -137,9 +140,6 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
      */
     @Override
     public void onItemClick(@NonNull DiscoveredBluetoothDevice device) {
-//        final Intent controlBlinkIntent = new Intent(requireActivity(), BlinkyActivity.class);
-//        controlBlinkIntent.putExtra(BlinkyActivity.BLINKY_DEVICE, device);
-//        startActivity(controlBlinkIntent);
         DeviceQualifier.startDeviceActivity(requireActivity(), device);
         Log.d("TAG", "onItemClick: " + device.getScanResult().getScanRecord().getServiceUuids());
         Log.d("TAG", "onItemClick: " + device.getScanResult().getAdvertisingSid());
@@ -147,17 +147,19 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
 
     /**
      * Получаем результат запроса разрешений
-     * @param requestCode - код запроса (задали сами выше)
-     * @param permissions - запрошенное разрешение
-     * @param grantResults - результат запроса (разрешено или запрещено)
      */
-    @Override
-    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_ACCESS_FINE_LOCATION) {
-            scannerViewModel.refresh();
-        }
-    }
+    private final ActivityResultLauncher<String> mPermissionResult = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            result -> {
+                if(result) {
+                    Log.e("TAG", "onActivityResult: PERMISSION GRANTED");
+                    scannerViewModel.refresh();
+                } else {
+                    Log.e("TAG", "onActivityResult: PERMISSION DENIED");
+                    btnRequestLocation.setVisibility(View.GONE);
+                    btnOpenAppSettings.setVisibility(View.VISIBLE);
+                }
+            });
 
     /**
      * Метод запрашивающий включение службы геолокации
@@ -180,11 +182,7 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
      * Константа REQUEST_ACCESS_FINE_LOCATION используется как код, по которому потом будем ловить результат запроса
      */
     public void onGrantLocationPermissionClicked(View view) {
-        Utils.markLocationPermissionRequested(requireActivity());
-        ActivityCompat.requestPermissions(
-                requireActivity(),
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_ACCESS_FINE_LOCATION);
+        mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION);
     }
 
     /**
@@ -253,7 +251,6 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
      */
     private void stopScan() {
         scannerViewModel.stopScan();
-        Log.d("ff", "stopScan: ");
     }
 
     /**

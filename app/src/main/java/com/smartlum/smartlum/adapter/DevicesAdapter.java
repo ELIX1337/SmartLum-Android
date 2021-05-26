@@ -59,7 +59,6 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
 			holder.deviceName.setText(deviceName);
 		else
 			holder.deviceName.setText(R.string.unknown_device);
-		holder.deviceAddress.setText(device.getAddress());
 		final int rssiPercent = (int) (100.0f * (127.0f + device.getRssi()) / (127.0f + 20.0f));
 		holder.rssi.setImageLevel(rssiPercent);
 	}
@@ -79,14 +78,12 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
 	}
 
 	final class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView deviceAddress;
 		private final TextView deviceName;
 		private final ImageView rssi;
 
 		private ViewHolder(@NonNull final View view) {
 			super(view);
 
-			deviceAddress = view.findViewById(R.id.device_address);
 			deviceName 	  = view.findViewById(R.id.device_name);
 			rssi 		  = view.findViewById(R.id.rssi);
 

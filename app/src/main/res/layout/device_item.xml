@@ -32,23 +32,11 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_toStartOf="@+id/rssi"
         android:layout_toEndOf="@id/icon"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:ellipsize="end"
         android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textSize="18sp"
-        tools:text="Device name"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:textColor="?android:attr/textColorSecondary"
-        android:id="@+id/device_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/device_name"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_toEndOf="@id/icon"
-        tools:text="AA:BB:CC:DD:EE:FF"/>
+        tools:text="Device name" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/rssi"
