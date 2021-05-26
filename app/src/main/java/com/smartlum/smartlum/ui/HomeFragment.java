@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.smartlum.smartlum.R;
 
 public class HomeFragment extends Fragment {
 
     private FloatingActionButton fabInstagram, fabVK, favYoutube, fabWEB;
+    private MaterialCardView linkWeb, linkInstagram, linkVK;
 
     public HomeFragment() { }
 
@@ -38,16 +40,20 @@ public class HomeFragment extends Fragment {
         favYoutube   = view.findViewById(R.id.fab_youtube);
         fabWEB       = view.findViewById(R.id.fab_web);
 
+        linkInstagram = view.findViewById(R.id.home_link_instagram);
+        linkVK        = view.findViewById(R.id.home_link_vk);
+        linkWeb       = view.findViewById(R.id.home_link_web);
+
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
 
-        fabInstagram.setOnClickListener(v -> {
+        linkInstagram.setOnClickListener(v -> {
             intent.setData(Uri.parse(getString(R.string.link_instagram)));
             startActivity(intent);
         });
 
-        fabVK.setOnClickListener(v -> {
+        linkVK.setOnClickListener(v -> {
             intent.setData(Uri.parse(getString(R.string.link_vk)));
             startActivity(intent);
         });
@@ -55,7 +61,7 @@ public class HomeFragment extends Fragment {
             intent.setData(Uri.parse(getString(R.string.link_youtube)));
             startActivity(intent);
         });
-        fabWEB.setOnClickListener(v -> {
+        linkWeb.setOnClickListener(v -> {
             intent.setData(Uri.parse(getString(R.string.link_website)));
             startActivity(intent);
         });
