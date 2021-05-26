@@ -4,9 +4,9 @@
         <item name="android:windowBackground">@color/sl_background</item>
         <item name="actionBarTheme">@style/Theme.AppCompat.Light</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/sl_secondary</item>                                        <!-- Button text, bottom navigation selection -->
+        <item name="colorPrimary">@color/sl_secondary</item>                                        <!-- Button color, bottom navigation selection -->
         <item name="colorPrimaryVariant">@color/sl_secondary</item>                                <!-- Status bar (time, battery etc.) -->
-        <item name="colorOnPrimary">@color/sl_light</item>                                             <!-- Slider label text -->
+        <item name="colorOnPrimary">@color/sl_primary</item>                                             <!-- Slider label text -->
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/sl_light</item>                                        <!-- FAB background, Progress bars, Radio selection -->
         <item name="colorSecondaryVariant">@color/sl_light</item>
