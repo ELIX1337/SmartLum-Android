@@ -217,10 +217,12 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
 
                 if (!state.hasRecords()) {
                     noDevicesView.setVisibility(View.VISIBLE);
-                    if (!Utils.isLocationRequired(requireActivity()) || Utils.isLocationEnabled(requireActivity())) {
-                        noLocationView.setVisibility(View.INVISIBLE);
-                    } else {
+                    if (Utils.isLocationRequired(requireActivity()) || !Utils.isLocationEnabled(requireActivity())) {
                         noLocationView.setVisibility(View.VISIBLE);
+                        Log.d("TAG", !Utils.isLocationRequired(requireActivity()) + "*" + Utils.isLocationEnabled(requireActivity()));
+                    } else {
+                        noLocationView.setVisibility(View.INVISIBLE);
+                        Log.e("TAG", "startScan: INVISIBLE" );
                     }
                 } else {
                     noDevicesView.setVisibility(View.GONE);

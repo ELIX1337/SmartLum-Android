@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -16,7 +17,7 @@ import com.smartlum.smartlum.R;
 
 public class HomeFragment extends Fragment {
 
-    private FloatingActionButton fabInstagram, fabVK, favYoutube, fabWEB;
+    private ImageView fabInstagram, fabVK, fabWEB;
     private MaterialCardView linkWeb, linkInstagram, linkVK;
 
     public HomeFragment() { }
@@ -37,7 +38,6 @@ public class HomeFragment extends Fragment {
 
         fabInstagram = view.findViewById(R.id.fab_instagram);
         fabVK        = view.findViewById(R.id.fab_vk);
-        favYoutube   = view.findViewById(R.id.fab_youtube);
         fabWEB       = view.findViewById(R.id.fab_web);
 
         linkInstagram = view.findViewById(R.id.home_link_instagram);
@@ -57,14 +57,25 @@ public class HomeFragment extends Fragment {
             intent.setData(Uri.parse(getString(R.string.link_vk)));
             startActivity(intent);
         });
-        favYoutube.setOnClickListener(v -> {
-            intent.setData(Uri.parse(getString(R.string.link_youtube)));
-            startActivity(intent);
-        });
         linkWeb.setOnClickListener(v -> {
             intent.setData(Uri.parse(getString(R.string.link_website)));
             startActivity(intent);
         });
+
+        fabInstagram.setOnClickListener(v -> {
+            intent.setData(Uri.parse(getString(R.string.link_instagram)));
+            startActivity(intent);
+        });
+
+        fabVK.setOnClickListener(v -> {
+            intent.setData(Uri.parse(getString(R.string.link_vk)));
+            startActivity(intent);
+        });
+        fabWEB.setOnClickListener(v -> {
+            intent.setData(Uri.parse(getString(R.string.link_website)));
+            startActivity(intent);
+        });
+        
         return view;
     }
 }

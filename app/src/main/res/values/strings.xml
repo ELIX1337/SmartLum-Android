@@ -28,10 +28,10 @@
     <string name="bluetooth_disabled_info">The Bluetooth adapter is turned off. Click the button below to enable it.</string>
     <string name="bluetooth_disabled_action">Enable</string>
 
-    <string name="blinky_guide_title">CAN\'T SEE YOUR BLINKY?</string>
-    <string name="blinky_guide_info">1. Make sure the DK is <b>turned on</b> and is connected to a power source using a micro USB cable or a coin cell is plugged in.
-        \n\n2. Make sure the <b>ble_app_blinky</b> firmware and SoftDevice are flashed.</string>
-    <string name="blinky_guide_location_info">3. Location is turned off. Some Android phones require it enabled in order to scan for Bluetooth LE devices. \t\tIf you are sure your Blinky is advertising and it doesn\'t show up here, click the button below to enable Location.</string>
+    <string name="blinky_guide_title">CAN\'T SEE YOUR DEVICE?</string>
+    <string name="blinky_guide_info">1. Make sure the device is <b>turned on</b> and is connected to a power source.
+        \n\n2. Make sure that you are on the enought distance to device</string>
+    <string name="blinky_guide_location_info">2. Check if the Location Service is enabled. Some Android phones require it enabled in order to scan for Bluetooth LE devices. \t\tIf you are sure your device is working fine and it doesn\'t show up here, click the button below to enable Location.</string>
     <string name="blinky_guide_location_action">Enable</string>
 
     <string name="not_supported_title">DEVICE NOT SUPPORTED</string>

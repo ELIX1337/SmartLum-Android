@@ -70,14 +70,13 @@
             android:background="@color/sl_background_dark_night">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/fab_web"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="32dp"
                 android:background="#00FFFFFF"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_web"
-                android:tint="@color/sl_deep_light"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,7 +85,7 @@
                 android:id="@+id/shapeableImageView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:alpha="0.5"
+                android:alpha="0.3"
                 android:background="@color/sl_dark_night"
                 android:backgroundTint="@color/sl_background_dark_night"
                 android:scaleType="centerCrop"
@@ -116,7 +115,7 @@
             android:background="@color/sl_background_dark_night">
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/fab_instagram"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="32dp"
@@ -130,13 +129,12 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:alpha="0.5"
+                android:alpha="0.3"
                 android:background="@color/sl_dark_night"
                 android:backgroundTint="@color/sl_background_dark_night"
                 android:cropToPadding="false"
                 android:scaleType="centerCrop"
                 android:src="@drawable/image_instagram"
-                android:translationY="114dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -162,7 +160,7 @@
             android:background="@color/sl_background_dark_night">
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/fab_vk"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="32dp"
@@ -177,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:alpha="0.5"
+                android:alpha="0.3"
                 android:background="@color/sl_dark_night"
                 android:backgroundTint="@color/sl_background_dark_night"
                 android:scaleType="centerCrop"
@@ -190,58 +188,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_instagram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
-        android:clickable="true"
-        android:src="@drawable/ic_instagram"
-        android:visibility="gone"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="gone" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_vk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:src="@drawable/ic_vk"
-        android:visibility="gone"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/fab_instagram"
-        app:layout_constraintEnd_toEndOf="@+id/fab_instagram"
-        tools:visibility="gone" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_youtube"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:src="@drawable/ic_youtube"
-        android:visibility="gone"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/fab_vk"
-        app:layout_constraintEnd_toEndOf="@+id/fab_vk"
-        tools:visibility="gone" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_web"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:src="@drawable/ic_web"
-        android:visibility="gone"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toTopOf="@+id/fab_youtube"
-        app:layout_constraintEnd_toEndOf="@+id/fab_youtube"
-        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
