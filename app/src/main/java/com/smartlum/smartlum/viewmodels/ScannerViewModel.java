@@ -104,10 +104,12 @@ public class ScannerViewModel extends AndroidViewModel {
         final ParcelUuid BLINKY_UUID = new ParcelUuid(BlinkyManager.LBS_UUID_SERVICE);
         final ParcelUuid EASY_UUID = new ParcelUuid(EasyManager.UART_UUID_SERVICE);
         final ParcelUuid TORCHERE_UUID = new ParcelUuid(TorchereManager.TORCHERE_SERVICE_UUID);
+        final ParcelUuid FL_MINI_UUID = new ParcelUuid(TorchereManager.FL_MINI_SERVICE_UUID);
         final List<ParcelUuid> uuidList = new ArrayList<>();
         uuidList.add(BLINKY_UUID);
         uuidList.add(EASY_UUID);
         uuidList.add(TORCHERE_UUID);
+        uuidList.add(FL_MINI_UUID);
         // Фильтр для сканирования. В него помещаем необходимые UUID
         List<ScanFilter> filters = new ArrayList<>();
         for (ParcelUuid a:uuidList) {

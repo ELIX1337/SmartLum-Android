@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
             intent.setData(Uri.parse(getString(R.string.link_website)));
             startActivity(intent);
         });
-        
+
         return view;
     }
 }

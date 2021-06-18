@@ -32,6 +32,7 @@ public class TorchereManager extends ObservableBleManager {
 
     /** Torchere Device Services UUID's. */
     public final static UUID TORCHERE_SERVICE_UUID    = UUID.fromString("BB930001-3CE1-4720-A753-28C0159DC777");
+    public final static UUID FL_MINI_SERVICE_UUID     = UUID.fromString("BB930002-3CE1-4720-A753-28C0159DC777");
     public final static UUID DEVICE_INFO_SERVICE_UUID = UUID.fromString("BB93FFFF-3CE1-4720-A753-28C0159DC777");
     public final static UUID COLOR_SERVICE_UUID       = UUID.fromString("BB930B00-3CE1-4720-A753-28C0159DC777");
     public final static UUID ANIMATION_SERVICE_UUID   = UUID.fromString("BB930A00-3CE1-4720-A753-28C0159DC777");

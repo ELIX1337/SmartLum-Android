@@ -49,6 +49,8 @@ public class DeviceQualifier {
             return DiscoveredBluetoothDevice.Type.EASY;
         else if (type.equals(TorchereManager.TORCHERE_SERVICE_UUID.toString()))
             return DiscoveredBluetoothDevice.Type.TORCHERE;
+        else if (type.equals(TorchereManager.FL_MINI_SERVICE_UUID.toString()))
+            return DiscoveredBluetoothDevice.Type.TORCHERE;
         return null;
     }
 }
