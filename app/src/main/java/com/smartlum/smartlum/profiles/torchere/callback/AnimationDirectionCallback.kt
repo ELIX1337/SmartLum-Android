@@ -1,9 +1,7 @@
-package com.smartlum.smartlum.profiles.torchere.callback;
+package com.smartlum.smartlum.profiles.torchere.callback
 
-import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothDevice
 
-import androidx.annotation.NonNull;
-
-public interface AnimationDirectionCallback {
-    void onAnimationDirectionReceived(@NonNull final BluetoothDevice device, final int direction);
+interface AnimationDirectionCallback {
+    fun onAnimationDirectionReceived(device: BluetoothDevice, direction: Int)
 }

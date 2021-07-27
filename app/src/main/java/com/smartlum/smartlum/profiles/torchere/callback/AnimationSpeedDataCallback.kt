@@ -1,21 +1,16 @@
-package com.smartlum.smartlum.profiles.torchere.callback;
+package com.smartlum.smartlum.profiles.torchere.callback
 
-import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothDevice
+import no.nordicsemi.android.ble.callback.profile.ProfileDataCallback
+import no.nordicsemi.android.ble.data.Data
 
-import androidx.annotation.NonNull;
-
-import no.nordicsemi.android.ble.callback.profile.ProfileDataCallback;
-import no.nordicsemi.android.ble.data.Data;
-
-@SuppressWarnings("ConstantConditions")
-public abstract class AnimationSpeedDataCallback implements ProfileDataCallback, AnimationSpeedCallback {
-    @Override
-    public void onDataReceived(@NonNull BluetoothDevice device, @NonNull Data data) {
+abstract class AnimationSpeedDataCallback : ProfileDataCallback, AnimationSpeedCallback {
+    override fun onDataReceived(device: BluetoothDevice, data: Data) {
         if (data.size() != 1) {
-            onInvalidDataReceived(device, data);
-            return;
+            onInvalidDataReceived(device, data)
+            return
         }
-        final int value = data.getIntValue(Data.FORMAT_UINT8, 0);
-        onAnimationSpeedReceived(device, value);
+        val value = data.getIntValue(Data.FORMAT_UINT8, 0)!!
+        onAnimationSpeedReceived(device, value)
     }
 }

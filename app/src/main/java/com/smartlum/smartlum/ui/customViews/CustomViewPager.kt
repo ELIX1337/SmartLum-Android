@@ -1,35 +1,30 @@
-package com.smartlum.smartlum.ui.customViews;
+package com.smartlum.smartlum.ui.customViews
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
+import androidx.viewpager.widget.ViewPager
 
-import androidx.viewpager.widget.ViewPager;
+class CustomViewPager : ViewPager {
+    private var swipeable = true
 
-public class CustomViewPager extends ViewPager {
-    private boolean swipeable = true;
-
-    public CustomViewPager(Context context) {
-        super(context);
-    }
-
-    public CustomViewPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    constructor(context: Context?) : super(context!!) {}
+    constructor(context: Context?, attrs: AttributeSet?) : super(
+        context!!, attrs
+    ) {
     }
 
     // Call this method in your motion events when you want to disable or enable
     // It should work as desired.
-    public void setSwipeable(boolean swipeable) {
-        this.swipeable = swipeable;
+    fun setSwipeable(swipeable: Boolean) {
+        this.swipeable = swipeable
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent arg0) {
-        return (this.swipeable) && super.onInterceptTouchEvent(arg0);
+    override fun onInterceptTouchEvent(arg0: MotionEvent): Boolean {
+        return swipeable && super.onInterceptTouchEvent(arg0)
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return (this.swipeable) && super.onTouchEvent(event);
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return swipeable && super.onTouchEvent(event)
     }
 }

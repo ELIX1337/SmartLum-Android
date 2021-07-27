@@ -1,61 +1,57 @@
-package com.smartlum.smartlum.ui.customViews;
+package com.smartlum.smartlum.ui.customViews
 
-import android.content.Context;
-import android.graphics.Color;
-import android.util.AttributeSet;
+import android.content.Context
+import android.graphics.Color
+import android.util.AttributeSet
+import com.flask.colorpicker.ColorPickerView
+import com.google.android.material.slider.Slider
+import kotlin.math.roundToInt
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.flask.colorpicker.ColorPickerView;
-import com.google.android.material.slider.Slider;
-
-public class CustomBrightnessSlider extends Slider {
-
-    private ColorPickerView wheel;
-    private int trueColor;
-
-    public CustomBrightnessSlider(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        super.setValueFrom(0);
-        super.setValueTo(255);
+class CustomBrightnessSlider(context: Context, attrs: AttributeSet?) : Slider(context, attrs) {
+    private var wheel: ColorPickerView? = null
+    private var trueColor = 0
+    fun setColor(color: Int) {
+        val topColor =
+            Color.red(color).coerceAtLeast(Color.green(color)).coerceAtLeast(Color.blue(color))
+        val multiplier = (255.toFloat() / topColor)
+        val trueRed = (Color.red(color) * multiplier).roundToInt()
+        val trueGreen = (Color.green(color) * multiplier).roundToInt()
+        val trueBlue = (Color.blue(color) * multiplier).roundToInt()
+        trueColor = getIntFromColor(trueRed, trueGreen, trueBlue)
+        value = topColor.toFloat()
     }
 
-    public void setColor(int color) {
-        final int topColor = Math.max((Math.max(Color.red(color), Color.green(color))), Color.blue(color));
-        final float multiplier = (float) ( (float) 255 / topColor);
-        final int trueRed = Math.round(Color.red(color) * multiplier);
-        final int trueGreen = Math.round(Color.green(color) * multiplier);
-        final int trueBlue = Math.round(Color.blue(color) * multiplier);
-
-        trueColor = getIntFromColor(trueRed, trueGreen, trueBlue);
-        setValue(topColor);
+    fun setColorWheel(wheel: ColorPickerView?) {
+        this.wheel = wheel
     }
 
-    public void setColorWheel(ColorPickerView wheel) {
-        this.wheel = wheel;
-    }
-
-    public int getColorBrightness() {
-        int red = Math.round(Color.red(trueColor) * (getValue()/getValueTo()));
-        int green = Math.round(Color.green(trueColor) * (getValue()/getValueTo()));
-        int blue = Math.round(Color.blue(trueColor) * (getValue()/getValueTo()));
-        if (red != 0 && green !=0 && blue != 0) {
-            wheel.setColor(getIntFromColor(red, green, blue), false);
-        } else {
-            red = Math.round(255 * (getValue()/getValueTo()));
-            green = Math.round(255 * (getValue()/getValueTo()));
-            blue = Math.round(255 * (getValue()/getValueTo()));
+    val colorBrightness: Int
+        get() {
+            var red = (Color.red(trueColor) * (value / valueTo)).roundToInt()
+            var green = (Color.green(trueColor) * (value / valueTo)).roundToInt()
+            var blue = (Color.blue(trueColor) * (value / valueTo)).roundToInt()
+            if (red != 0 && green != 0 && blue != 0) {
+                wheel!!.setColor(getIntFromColor(red, green, blue), false)
+            } else {
+                red = (255 * (value / valueTo)).roundToInt()
+                green = (255 * (value / valueTo)).roundToInt()
+                blue = (255 * (value / valueTo)).roundToInt()
+            }
+            return getIntFromColor(red, green, blue)
         }
-        return getIntFromColor(red, green, blue);
+
+    private fun getIntFromColor(red: Int, green: Int, blue: Int): Int {
+        var mRed = red
+        var mGreen = green
+        var mBlue = blue
+        mRed = mRed shl 16 and 0x00FF0000
+        mGreen = mGreen shl 8 and 0x0000FF00
+        mBlue = mBlue and 0x000000FF
+        return -0x1000000 or mRed or mGreen or mBlue
     }
 
-    private int getIntFromColor(int red, int green, int blue) {
-        red = (red << 16) & 0x00FF0000;
-        green = (green << 8) & 0x0000FF00;
-        blue = blue & 0x000000FF;
-
-        return 0xFF000000 | red | green | blue;
+    init {
+        super.setValueFrom(0f)
+        super.setValueTo(255f)
     }
-
 }

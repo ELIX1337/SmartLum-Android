@@ -1,42 +1,40 @@
-package com.smartlum.smartlum.profiles.torchere.data;
+package com.smartlum.smartlum.profiles.torchere.data
 
-import androidx.annotation.NonNull;
+import no.nordicsemi.android.ble.data.Data
+import java.util.*
 
-import java.util.HashMap;
-
-import no.nordicsemi.android.ble.data.Data;
-
-public class TorchereData {
-    public static HashMap<Integer, String> animationModes;
-    static {
-        animationModes = new HashMap<>();
-        animationModes.put(1, "Tetris");
-        animationModes.put(2, "Wave");
-        animationModes.put(3, "Transfusion");
-        animationModes.put(4, "Full Rainbow");
-        animationModes.put(5, "Rainbow");
-        animationModes.put(6, "Static");
+object TorchereData {
+    @JvmField
+    var animationModes: HashMap<Int, String>? = null
+    @JvmField
+    var animationDirections: HashMap<Int, String>? = null
+    private const val STATE_OFF: Byte = 0x00
+    private const val STATE_ON: Byte = 0x01
+    @JvmStatic
+    fun writeTrue(): Data {
+        return Data.opCode(STATE_ON)
     }
 
-    public static HashMap<Integer, String> animationDirections;
-    static {
-        animationDirections = new HashMap<>();
-        animationDirections.put(1, "From Bottom");
-        animationDirections.put(2, "From Top");
-        animationDirections.put(3, "To Center");
-        animationDirections.put(4, "From Center");
+    @JvmStatic
+    fun writeFalse(): Data {
+        return Data.opCode(STATE_OFF)
     }
 
-    private static final byte STATE_OFF = 0x00;
-    private static final byte STATE_ON = 0x01;
-
-    @NonNull
-    public static Data writeTrue() {
-        return Data.opCode(STATE_ON);
+    init {
+        animationModes = HashMap()
+        animationModes!![1] = "Tetris"
+        animationModes!![2] = "Wave"
+        animationModes!![3] = "Transfusion"
+        animationModes!![4] = "Full Rainbow"
+        animationModes!![5] = "Rainbow"
+        animationModes!![6] = "Static"
     }
 
-    @NonNull
-    public static Data writeFalse() {
-        return Data.opCode(STATE_OFF);
+    init {
+        animationDirections = HashMap()
+        animationDirections!![1] = "From Bottom"
+        animationDirections!![2] = "From Top"
+        animationDirections!![3] = "To Center"
+        animationDirections!![4] = "From Center"
     }
 }

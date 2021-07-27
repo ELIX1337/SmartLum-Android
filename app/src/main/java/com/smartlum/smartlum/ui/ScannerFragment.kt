@@ -1,188 +1,167 @@
-package com.smartlum.smartlum.ui;
+package com.smartlum.smartlum.ui
 
-import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
-
-import android.provider.Settings;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import com.smartlum.smartlum.R;
-import com.smartlum.smartlum.adapter.DevicesAdapter;
-import com.smartlum.smartlum.adapter.DiscoveredBluetoothDevice;
-import com.smartlum.smartlum.utils.DeviceQualifier;
-import com.smartlum.smartlum.utils.Utils;
-import com.smartlum.smartlum.viewmodels.ScannerStateLiveData;
-import com.smartlum.smartlum.viewmodels.ScannerViewModel;
-import com.google.android.material.button.MaterialButton;
+import android.Manifest
+import android.bluetooth.BluetoothAdapter
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ProgressBar
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.button.MaterialButton
+import com.smartlum.smartlum.R
+import com.smartlum.smartlum.adapter.DevicesAdapter
+import com.smartlum.smartlum.adapter.DiscoveredBluetoothDevice
+import com.smartlum.smartlum.utils.DeviceQualifier
+import com.smartlum.smartlum.utils.Utils
+import com.smartlum.smartlum.viewmodels.ScannerStateLiveData
+import com.smartlum.smartlum.viewmodels.ScannerViewModel
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link ScannerFragment#newInstance} factory method to
+ * A simple [Fragment] subclass.
+ * Use the [ScannerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemClickListener {
-    private static final int REQUEST_ACCESS_FINE_LOCATION = 1001; // Случайное число, используется как RequestCode
-
+class ScannerFragment : Fragment(), DevicesAdapter.OnItemClickListener {
     // Backend
-    private ScannerViewModel scannerViewModel;
+    private var scannerViewModel: ScannerViewModel? = null
 
     // UI
-    private View noDevicesView;
-    private View noLocationView;
-    private View noBluetoothView;
-    private View noLocationPermissionView;
-    private MaterialButton btnRequestLocation;
-    private MaterialButton btnOpenAppSettings;
+    private var noDevicesView: View? = null
+    private var noLocationView: View? = null
+    private var noBluetoothView: View? = null
+    private var noLocationPermissionView: View? = null
+    private var btnRequestLocation: MaterialButton? = null
+    private var btnOpenAppSettings: MaterialButton? = null
+    private var progressBar: ProgressBar? = null
 
-    private ProgressBar progressBar;
-
-    public ScannerFragment() {
-        // Required empty public constructor
-    }
-
-    public static ScannerFragment newInstance(String param1, String param2) {
-        return new ScannerFragment();
-    }
-
-    /**
-     * Преопределяемые ниже методы:
-     * onCreate, onCreateView, onViewCreated, onStart, onStop
-     * описываются жизненным циклом (lifecycle) фрагмента и активити
-     * они вызываются при создании, уничтожении, показе, скрытии фрагмента/активити
-     * подробнее лучше почитать в интернете
-     */
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_scanner, container, false);
-        requireActivity().setTitle(getResources().getString(R.string.scanner));
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_scanner, container, false)
+        requireActivity().title = resources.getString(R.string.scanner)
 
         // Инициализируем UI
-        progressBar              = view.findViewById(R.id.scan_progress_bar);
-        noDevicesView            = view.findViewById(R.id.no_devices);
-        noLocationView           = view.findViewById(R.id.no_location);
-        noBluetoothView          = view.findViewById(R.id.bluetooth_off);
-        noLocationPermissionView = view.findViewById(R.id.no_location_permission);
-        final MaterialButton btnEnableLocation  = view.findViewById(R.id.action_enable_location);
-        final MaterialButton btnEnableBluetooth = view.findViewById(R.id.action_enable_bluetooth);
-        btnRequestLocation = view.findViewById(R.id.action_grant_location_permission);
-        btnOpenAppSettings = view.findViewById(R.id.action_permission_settings);
+        progressBar = view.findViewById(R.id.scan_progress_bar)
+        noDevicesView = view.findViewById(R.id.no_devices)
+        noLocationView = view.findViewById(R.id.no_location)
+        noBluetoothView = view.findViewById(R.id.bluetooth_off)
+        noLocationPermissionView = view.findViewById(R.id.no_location_permission)
+        val btnEnableLocation: MaterialButton = view.findViewById(R.id.action_enable_location)
+        val btnEnableBluetooth: MaterialButton = view.findViewById(R.id.action_enable_bluetooth)
+        btnRequestLocation = view.findViewById(R.id.action_grant_location_permission)
+        btnOpenAppSettings = view.findViewById(R.id.action_permission_settings)
 
         // Задаем слушатели на кнопки
-        btnEnableLocation.setOnClickListener(this::onEnableLocationClicked);
-        btnEnableBluetooth.setOnClickListener(this::onEnableBluetoothClicked);
-        btnRequestLocation.setOnClickListener(this::onGrantLocationPermissionClicked);
-        btnOpenAppSettings.setOnClickListener(this::onPermissionSettingsClicked);
-
-        return view;
+        btnEnableLocation.setOnClickListener { onEnableLocationClicked() }
+        btnEnableBluetooth.setOnClickListener { onEnableBluetoothClicked() }
+        btnRequestLocation?.setOnClickListener { onGrantLocationPermissionClicked() }
+        btnOpenAppSettings?.setOnClickListener { onPermissionSettingsClicked() }
+        return view
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Создаем модель, которая содержит в себе логику сканирования BLE
-        scannerViewModel = new ViewModelProvider(requireActivity()).get(ScannerViewModel.class);
-        scannerViewModel.getScannerState().observe(getViewLifecycleOwner(), this::startScan);
+        scannerViewModel = ViewModelProvider(requireActivity()).get(
+            ScannerViewModel::class.java
+        )
+        scannerViewModel?.scannerState?.observe(
+            viewLifecycleOwner,
+            { state: ScannerStateLiveData? ->
+                if (state != null) {
+                    startScan(state)
+                }
+            })
 
         // Инициализация списка устройств
-        final RecyclerView recyclerView = view.findViewById(R.id.recycler_view_ble_devices);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL));
-        final RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
-        if (animator instanceof SimpleItemAnimator) {
-            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view_ble_devices)
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireActivity(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+        val animator = recyclerView.itemAnimator
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
         }
-        final DevicesAdapter adapter = new DevicesAdapter(this, scannerViewModel.getDevices());
-        adapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(adapter);
+        val adapter = DevicesAdapter(this, scannerViewModel!!.devices)
+        adapter.setOnItemClickListener(this)
+        recyclerView.adapter = adapter
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        clear();
+    override fun onStart() {
+        super.onStart()
+        clear()
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        stopScan();
+    override fun onStop() {
+        super.onStop()
+        stopScan()
     }
 
     /**
      * Обработчик нажатий на элемент (девайс) из списка
      */
-    @Override
-    public void onItemClick(@NonNull DiscoveredBluetoothDevice device) {
-        DeviceQualifier.startDeviceActivity(requireActivity(), device);
-        Log.d("TAG", "onItemClick: " + device.getScanResult().getScanRecord().getServiceUuids());
-        Log.d("TAG", "onItemClick: " + device.getScanResult().getAdvertisingSid());
+    override fun onItemClick(device: DiscoveredBluetoothDevice) {
+        DeviceQualifier.startDeviceActivity(requireActivity(), device)
+        Log.d("TAG", "onItemClick: " + device.scanResult.scanRecord!!.serviceUuids)
+        Log.d("TAG", "onItemClick: " + device.scanResult.advertisingSid)
     }
 
     /**
      * Получаем результат запроса разрешений
      */
-    private final ActivityResultLauncher<String> mPermissionResult = registerForActivityResult(
-            new ActivityResultContracts.RequestPermission(),
-            result -> {
-                if(result) {
-                    Log.e("TAG", "onActivityResult: PERMISSION GRANTED");
-                    scannerViewModel.refresh();
-                } else {
-                    Log.e("TAG", "onActivityResult: PERMISSION DENIED");
-                    btnRequestLocation.setVisibility(View.GONE);
-                    btnOpenAppSettings.setVisibility(View.VISIBLE);
-                }
-            });
+    private val mPermissionResult = registerForActivityResult(
+        RequestPermission()
+    ) { result: Boolean ->
+        if (result) {
+            Log.e("TAG", "onActivityResult: PERMISSION GRANTED")
+            scannerViewModel!!.refresh()
+        } else {
+            Log.e("TAG", "onActivityResult: PERMISSION DENIED")
+            btnRequestLocation!!.visibility = View.GONE
+            btnOpenAppSettings!!.visibility = View.VISIBLE
+        }
+    }
 
     /**
      * Метод запрашивающий включение службы геолокации
      */
-    public void onEnableLocationClicked(View view) {
-        final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
+    fun onEnableLocationClicked() {
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        startActivity(intent)
     }
 
     /**
      * Метод запрашивающий включение Bluetooth
      */
-    public void onEnableBluetoothClicked(View view) {
-        final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        startActivity(enableIntent);
+    fun onEnableBluetoothClicked() {
+        val enableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+        startActivity(enableIntent)
     }
 
     /**
      * Метод запрашивающий разрешение на использование службы геолокиции
      * Константа REQUEST_ACCESS_FINE_LOCATION используется как код, по которому потом будем ловить результат запроса
      */
-    public void onGrantLocationPermissionClicked(View view) {
-        mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+    private fun onGrantLocationPermissionClicked() {
+        mPermissionResult.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     /**
@@ -191,10 +170,10 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
      * и теперь должен вручную их предоставить в настройках приложения.
      * Вешается на слушатель соответсвующей кнопки, а не вызывается автоматически при запрете
      */
-    public void onPermissionSettingsClicked(View view) {
-        final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.fromParts("package", requireActivity().getPackageName(), null));
-        startActivity(intent);
+    private fun onPermissionSettingsClicked() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.fromParts("package", requireActivity().packageName, null)
+        startActivity(intent)
     }
 
     /**
@@ -202,48 +181,49 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
      * Если все ОК - запускает сканирование
      * Иначе - покажет необходимое окно с проблемой.
      */
-    private void startScan(final ScannerStateLiveData state) {
+    private fun startScan(state: ScannerStateLiveData) {
         // Сначала проверяем разрешение на геолокацию (без нее не работает Bluetooth). Для пользователей Android Marshmallow и выше
         if (Utils.isLocationPermissionsGranted(requireActivity())) {
-            noLocationPermissionView.setVisibility(View.GONE);
+            noLocationPermissionView!!.visibility = View.GONE
 
             // Теперь проверяем, включен ли Bluetooth.
-            if (state.isBluetoothEnabled()) {
-                noBluetoothView.setVisibility(View.GONE);
+            if (state.isBluetoothEnabled) {
+                noBluetoothView!!.visibility = View.GONE
 
                 // Если дошли сюда - все окей, можно начинать сканирование.
-                scannerViewModel.startScan();
-                progressBar.setVisibility(View.VISIBLE);
-
+                scannerViewModel!!.startScan()
+                progressBar!!.visibility = View.VISIBLE
                 if (!state.hasRecords()) {
-                    noDevicesView.setVisibility(View.VISIBLE);
-                    if (Utils.isLocationRequired(requireActivity()) || !Utils.isLocationEnabled(requireActivity())) {
-                        noLocationView.setVisibility(View.VISIBLE);
-                        Log.d("TAG", !Utils.isLocationRequired(requireActivity()) + "*" + Utils.isLocationEnabled(requireActivity()));
+                    noDevicesView!!.visibility = View.VISIBLE
+                    if (Utils.isLocationRequired(requireActivity()) || !Utils.isLocationEnabled(
+                            requireActivity()
+                        )
+                    ) {
+                        noLocationView!!.visibility = View.VISIBLE
                     } else {
-                        noLocationView.setVisibility(View.INVISIBLE);
-                        Log.e("TAG", "startScan: INVISIBLE" );
+                        noLocationView!!.visibility = View.INVISIBLE
+                        Log.e("TAG", "startScan: INVISIBLE")
                     }
                 } else {
-                    noDevicesView.setVisibility(View.GONE);
+                    noDevicesView!!.visibility = View.GONE
                 }
             } else {
-                noBluetoothView.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
-                noDevicesView.setVisibility(View.GONE);
-                clear();
+                noBluetoothView!!.visibility = View.VISIBLE
+                progressBar!!.visibility = View.INVISIBLE
+                noDevicesView!!.visibility = View.GONE
+                clear()
             }
         } else {
-            noLocationPermissionView.setVisibility(View.VISIBLE);
-            noBluetoothView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.INVISIBLE);
-            noDevicesView.setVisibility(View.GONE);
+            noLocationPermissionView!!.visibility = View.VISIBLE
+            noBluetoothView!!.visibility = View.GONE
+            progressBar!!.visibility = View.INVISIBLE
+            noDevicesView!!.visibility = View.GONE
 
             // Проверяем, если пользователь запретил запрос разрешений НАВСЕГДА
             // чтобы показать кнопку перехода к настройкам приложения
-            final boolean deniedForever = Utils.isLocationPermissionDeniedForever(requireActivity());
-            btnRequestLocation.setVisibility(deniedForever ? View.GONE : View.VISIBLE);
-            btnOpenAppSettings.setVisibility(deniedForever ? View.VISIBLE : View.GONE);
+            val deniedForever = Utils.isLocationPermissionDeniedForever(requireActivity())
+            btnRequestLocation!!.visibility = if (deniedForever) View.GONE else View.VISIBLE
+            btnOpenAppSettings!!.visibility = if (deniedForever) View.VISIBLE else View.GONE
         }
     }
 
@@ -251,16 +231,24 @@ public class ScannerFragment extends Fragment implements DevicesAdapter.OnItemCl
      * Останавливает сканирование BLE устройств.
      * Если быть точнее, дает команду своей ViewModel чтобы она остановила сканирование.
      */
-    private void stopScan() {
-        scannerViewModel.stopScan();
+    private fun stopScan() {
+        scannerViewModel!!.stopScan()
     }
 
     /**
      * Очищает список найденных устройств.
      */
-    private void clear() {
-        scannerViewModel.getDevices().clear();
-        scannerViewModel.getScannerState().clearRecords();
+    private fun clear() {
+        scannerViewModel!!.devices.clear()
+        scannerViewModel!!.scannerState.clearRecords()
     }
 
+    companion object {
+        private const val REQUEST_ACCESS_FINE_LOCATION =
+            1001 // Случайное число, используется как RequestCode
+
+        fun newInstance(param1: String?, param2: String?): ScannerFragment {
+            return ScannerFragment()
+        }
+    }
 }

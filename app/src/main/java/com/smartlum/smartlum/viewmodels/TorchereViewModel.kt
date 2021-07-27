@@ -1,14 +1,12 @@
-package com.smartlum.smartlum.viewmodels;
+package com.smartlum.smartlum.viewmodels
 
-import android.app.Application;
-import android.bluetooth.BluetoothDevice;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import com.smartlum.smartlum.adapter.DiscoveredBluetoothDevice;
-import com.smartlum.smartlum.profiles.torchere.TorchereManager;
-import no.nordicsemi.android.ble.livedata.state.ConnectionState;
+import android.app.Application
+import android.bluetooth.BluetoothDevice
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import com.smartlum.smartlum.adapter.DiscoveredBluetoothDevice
+import com.smartlum.smartlum.profiles.torchere.TorchereManager
+import no.nordicsemi.android.ble.livedata.state.ConnectionState
 
 /**
  * ViewModel устройства Torchere.
@@ -16,58 +14,49 @@ import no.nordicsemi.android.ble.livedata.state.ConnectionState;
  * подписываешься на данные через методы get()
  * записываешь данные через методы set()
  */
-
-public class TorchereViewModel extends AndroidViewModel {
-
-    private static final String TAG = "TorchereViewModel:";
-    private final TorchereManager torchereManager;
-    private BluetoothDevice device;
-
-    public TorchereViewModel(@NonNull Application application) {
-        super(application);
-        torchereManager = new TorchereManager(getApplication());
+class TorchereViewModel(application: Application) : AndroidViewModel(application) {
+    private val torchereManager: TorchereManager = TorchereManager(getApplication())
+    private var device: BluetoothDevice? = null
+    fun getConnectionState(): LiveData<ConnectionState> {
+        return torchereManager.state
     }
 
-    public LiveData<ConnectionState> getConnectionState() {
-        return torchereManager.getState();
+    fun getPrimaryColor(): LiveData<Int> {
+        return torchereManager.primaryColor
     }
 
-    public LiveData<Integer> getPrimaryColor() {
-        return torchereManager.getPrimaryColor();
+    fun getSecondaryColor(): LiveData<Int> {
+        return torchereManager.secondaryColor
     }
 
-    public LiveData<Integer> getSecondaryColor() {
-        return torchereManager.getSecondaryColor();
+    fun getRandomColor(): LiveData<Boolean> {
+        return torchereManager.randomColor
     }
 
-    public LiveData<Boolean> getRandomColor() {
-        return torchereManager.getRandomColor();
+    fun getAnimationMode(): LiveData<Int> {
+        return torchereManager.animationMode
     }
 
-    public  LiveData<Integer> getAnimationMode() {
-        return torchereManager.getAnimationMode();
+    fun getAnimationOnSpeed(): LiveData<Int> {
+        return torchereManager.animationOnSpeed
     }
 
-    public LiveData<Integer> getAnimationOnSpeed() {
-        return torchereManager.getAnimationOnSpeed();
+    fun getAnimationOffSpeed(): LiveData<Int> {
+        return torchereManager.animationOffSpeed
     }
 
-    public LiveData<Integer> getAnimationOffSpeed() {
-        return torchereManager.getAnimationOffSpeed();
+    fun getAnimationDirection(): LiveData<Int> {
+        return torchereManager.animationDirection
     }
 
-    public LiveData<Integer> getAnimationDirection() {
-        return torchereManager.getAnimationDirection();
+    fun getAnimationStep(): LiveData<Int> {
+        return torchereManager.animationStep
     }
 
-    public LiveData<Integer> getAnimationStep() {
-        return torchereManager.getAnimationStep();
-    }
-
-    public void connect(@NonNull final DiscoveredBluetoothDevice target) {
+    fun connect(target: DiscoveredBluetoothDevice) {
         if (device == null) {
-            device = target.getDevice();
-            reconnect();
+            device = target.device
+            reconnect()
         }
     }
 
@@ -76,57 +65,61 @@ public class TorchereViewModel extends AndroidViewModel {
      * If this device was not supported, its services were cleared on disconnection, so
      * reconnection may help.
      */
-    public void reconnect() {
+    fun reconnect() {
         if (device != null) {
-            torchereManager.connect(device)
-                    .retry(3, 100)
-                    .useAutoConnect(false)
-                    .enqueue();
+            torchereManager.connect(device!!)
+                .retry(3, 100)
+                .useAutoConnect(false)
+                .enqueue()
         }
     }
 
-    public void disconnect() {
-        device = null;
-        torchereManager.disconnect().enqueue();
+    fun disconnect() {
+        device = null
+        torchereManager.disconnect().enqueue()
     }
 
-    public void setPrimaryColor(final int color) {
-        torchereManager.writePrimaryColor(color);
+    fun setPrimaryColor(color: Int) {
+        torchereManager.writePrimaryColor(color)
     }
 
-    public void setSecondaryColor(final int color) {
-        torchereManager.writeSecondaryColor(color);
+    fun setSecondaryColor(color: Int) {
+        torchereManager.writeSecondaryColor(color)
     }
 
-    public void setRandomColor(final boolean state) {
-        torchereManager.writeRandomColor(state);
+    fun setRandomColor(state: Boolean) {
+        torchereManager.writeRandomColor(state)
     }
 
-    public void setAnimationMode(final int mode) {
-        torchereManager.writeAnimationMode(mode);
+    fun setAnimationMode(mode: Int) {
+        torchereManager.writeAnimationMode(mode)
     }
 
-    public void setAnimationOnSpeed(final int speed) {
-        torchereManager.writeAnimationOnSpeed(speed);
+    fun setAnimationOnSpeed(speed: Int) {
+        torchereManager.writeAnimationOnSpeed(speed)
     }
 
-    public void setAnimationOffSpeed(final int speed) {
-        torchereManager.writeAnimationOffSpeed(speed);
+    fun setAnimationOffSpeed(speed: Int) {
+        torchereManager.writeAnimationOffSpeed(speed)
     }
 
-    public void setAnimationDirection(final int direction) {
-        torchereManager.writeAnimationDirection(direction);
+    fun setAnimationDirection(direction: Int) {
+        torchereManager.writeAnimationDirection(direction)
     }
 
-    public void setAnimationStep(final int step) {
-        torchereManager.writeAnimationStep(step);
+    fun setAnimationStep(step: Int) {
+        torchereManager.writeAnimationStep(step)
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        if (torchereManager.isConnected()) {
-            disconnect();
+    override fun onCleared() {
+        super.onCleared()
+        if (torchereManager.isConnected) {
+            disconnect()
         }
     }
+
+    companion object {
+        private const val TAG = "TorchereViewModel:"
+    }
+
 }

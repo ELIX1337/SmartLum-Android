@@ -1,50 +1,36 @@
-package com.smartlum.smartlum.ui.customViews;
+package com.smartlum.smartlum.ui.customViews
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
+import androidx.core.widget.NestedScrollView
 
-import androidx.core.widget.NestedScrollView;
+class CustomScrollView : NestedScrollView {
+    var isEnableScrolling = true
 
-public class CustomScrollView extends NestedScrollView {
+    constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(
+        context!!, attrs, defStyle
+    )
 
-    private boolean enableScrolling = true;
+    constructor(context: Context?, attrs: AttributeSet?) : super(
+        context!!, attrs
+    )
 
-    public boolean isEnableScrolling() {
-        return enableScrolling;
-    }
+    constructor(context: Context?) : super(context!!)
 
-    public void setEnableScrolling(boolean enableScrolling) {
-        this.enableScrolling = enableScrolling;
-    }
-
-    public CustomScrollView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
-    public CustomScrollView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public CustomScrollView(Context context) {
-        super(context);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-
-        if (isEnableScrolling()) {
-            return super.onInterceptTouchEvent(ev);
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        return if (isEnableScrolling) {
+            super.onInterceptTouchEvent(ev)
         } else {
-            return false;
+            false
         }
     }
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (isEnableScrolling()) {
-            return super.onTouchEvent(ev);
+
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        return if (isEnableScrolling) {
+            super.onTouchEvent(ev)
         } else {
-            return false;
+            false
         }
     }
 }

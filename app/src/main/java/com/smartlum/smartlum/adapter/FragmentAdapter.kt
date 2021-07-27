@@ -1,76 +1,58 @@
-package com.smartlum.smartlum.adapter;
+package com.smartlum.smartlum.adapter
 
-import android.os.Parcelable;
+import android.os.Parcelable
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import java.util.*
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class FragmentAdapter extends FragmentStatePagerAdapter {
-
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
-
-    public FragmentAdapter(@NonNull FragmentManager manager) {
-        super(manager, FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+class FragmentAdapter(manager: FragmentManager) :
+    FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    private val mFragmentList: MutableList<Fragment> = ArrayList()
+    private val mFragmentTitleList: MutableList<String> = ArrayList()
+    override fun getItem(position: Int): Fragment {
+        return mFragmentList[position]
     }
 
-    @NotNull
-    @Override
-    public Fragment getItem(int position) {
-        return mFragmentList.get(position);
+    override fun getCount(): Int {
+        return mFragmentList.size
     }
 
-    @Override
-    public int getCount() {
-        return mFragmentList.size();
+    override fun getPageTitle(position: Int): CharSequence? {
+        return mFragmentTitleList[position]
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mFragmentTitleList.get(position);
+    fun addFragment(fragment: Fragment, title: String) {
+        mFragmentList.add(fragment)
+        mFragmentTitleList.add(title)
     }
 
-    public void addFragment(Fragment fragment, String title) {
-        mFragmentList.add(fragment);
-        mFragmentTitleList.add(title);
+    fun addFragment(index: Int, fragment: Fragment, title: String) {
+        mFragmentList.add(index, fragment)
+        mFragmentTitleList.add(index, title)
     }
 
-    public void addFragment(int index, Fragment fragment, String title) {
-        mFragmentList.add(index, fragment);
-        mFragmentTitleList.add(index, title);
+    fun getFragmentIndex(title: String): Int {
+        return mFragmentTitleList.indexOf(title)
     }
 
-    public int getFragmentIndex(String title) {
-        return mFragmentTitleList.indexOf(title);
+    fun removeFragment(index: Int) {
+        mFragmentList.removeAt(index)
+        mFragmentTitleList.removeAt(index)
     }
 
-    public void removeFragment(int index) {
-        mFragmentList.remove(index);
-        mFragmentTitleList.remove(index);
+    fun removeAllFragments() {
+        mFragmentList.clear()
+        mFragmentTitleList.clear()
     }
 
-    public void removeAllFragments() {
-        mFragmentList.clear();
-        mFragmentTitleList.clear();
-    }
-
-    @Override
-    public int getItemPosition(Object object) {
+    override fun getItemPosition(`object`: Any): Int {
         // Causes adapter to reload all Fragments when
         // notifyDataSetChanged is called
-        return POSITION_NONE;
+        return POSITION_NONE
     }
 
-    @Override
-    public void restoreState(Parcelable state, ClassLoader loader) {
+    override fun restoreState(state: Parcelable?, loader: ClassLoader?) {
         //Do NOTHING;
     }
-
 }

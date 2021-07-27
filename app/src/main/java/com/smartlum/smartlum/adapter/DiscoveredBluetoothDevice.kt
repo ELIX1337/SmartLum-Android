@@ -19,178 +19,131 @@
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package com.smartlum.smartlum.adapter
 
-package com.smartlum.smartlum.adapter;
+import android.bluetooth.BluetoothDevice
+import android.os.Parcel
+import android.os.Parcelable
+import com.smartlum.smartlum.utils.DeviceQualifier
+import no.nordicsemi.android.support.v18.scanner.ScanResult
+import org.jetbrains.annotations.Contract
 
-import android.bluetooth.BluetoothDevice;
-import android.os.Parcel;
-import android.os.Parcelable;
+class DiscoveredBluetoothDevice : Parcelable {
+    val device: BluetoothDevice
+    private var lastScanResult: ScanResult? = null
+    var name: String? = null
+        private set
+    var rssi = 0
+        private set
+    private var previousRssi = 0
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+    /**
+     * Returns the highest recorded RSSI value during the scan.
+     *
+     * @return Highest RSSI value.
+     */
+    var highestRssi = -128
+        private set
 
-import com.smartlum.smartlum.utils.DeviceQualifier;
+    enum class Type {
+        NORDIC_BLINKY, EASY, TORCHERE
+    }
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+    private var deviceType: Type? = null
 
-import no.nordicsemi.android.support.v18.scanner.ScanResult;
+    constructor(scanResult: ScanResult) {
+        device = scanResult.device
+        update(scanResult)
+        deviceType = DeviceQualifier.defineDeviceType(scanResult)
+    }
 
-public class DiscoveredBluetoothDevice implements Parcelable {
-	private final BluetoothDevice device;
-	private ScanResult lastScanResult;
-	private String name;
-	private int rssi;
-	private int previousRssi;
-	private int highestRssi = -128;
-	public enum Type {
-		NORDIC_BLINKY, EASY, TORCHERE
-	}
-	private Type deviceType;
+    val address: String
+        get() = device.address
 
-	public DiscoveredBluetoothDevice(@NonNull final ScanResult scanResult) {
-		device = scanResult.getDevice();
-		update(scanResult);
-		deviceType = DeviceQualifier.defineDeviceType(scanResult);
-	}
+    fun getDeviceType(): Type {
+        return deviceType!!
+    }
 
-	@NonNull
-	public BluetoothDevice getDevice() {
-		return device;
-	}
+    val scanResult: ScanResult
+        get() = lastScanResult!!
 
-	@NonNull
-	public String getAddress() {
-		return device.getAddress();
-	}
+    /**
+     * This method returns true if the RSSI range has changed. The RSSI range depends on drawable
+     * levels from [com.smartlum.smartlum.R.drawable.ic_signal_bar].
+     *
+     * @return True, if the RSSI range has changed.
+     */
+    /* package */
+    fun hasRssiLevelChanged(): Boolean {
+        val newLevel =
+            if (rssi <= 10) 0 else if (rssi <= 28) 1 else if (rssi <= 45) 2 else if (rssi <= 65) 3 else 4
+        val oldLevel =
+            if (previousRssi <= 10) 0 else if (previousRssi <= 28) 1 else if (previousRssi <= 45) 2 else if (previousRssi <= 65) 3 else 4
+        return newLevel != oldLevel
+    }
 
-	@Nullable
-	public String getName() {
-		return name;
-	}
+    /**
+     * Updates the device values based on the scan result.
+     *
+     * @param scanResult the new received scan result.
+     */
+    fun update(scanResult: ScanResult) {
+        lastScanResult = scanResult
+        name = if (scanResult.scanRecord != null) scanResult.scanRecord!!.deviceName else null
+        previousRssi = rssi
+        rssi = scanResult.rssi
+        if (highestRssi < rssi) highestRssi = rssi
+    }
 
-	@SuppressWarnings("WeakerAccess")
-	public int getRssi() {
-		return rssi;
-	}
+    fun matches(scanResult: ScanResult): Boolean {
+        return device.address == scanResult.device.address
+    }
 
-	@NonNull
-	public Type getDeviceType() {
-		return deviceType;
-	}
+    override fun hashCode(): Int {
+        return device.hashCode()
+    }
 
-	@NonNull
-	public ScanResult getScanResult() {
-		return lastScanResult;
-	}
-	/**
-	 * Returns the highest recorded RSSI value during the scan.
-	 *
-	 * @return Highest RSSI value.
-	 */
-	public int getHighestRssi() {
-		return highestRssi;
-	}
+    override fun equals(other: Any?): Boolean {
+        if (other is DiscoveredBluetoothDevice) {
+            return device.address == other.device.address
+        }
+        return super.equals(other)
+    }
 
-	/**
-	 * This method returns true if the RSSI range has changed. The RSSI range depends on drawable
-	 * levels from {@link com.smartlum.smartlum.R.drawable#ic_signal_bar}.
-	 *
-	 * @return True, if the RSSI range has changed.
-	 */
-	/* package */ boolean hasRssiLevelChanged() {
-		final int newLevel =
-				rssi <= 10 ?
-						0 :
-						rssi <= 28 ?
-								1 :
-								rssi <= 45 ?
-										2 :
-										rssi <= 65 ?
-												3 :
-												4;
-		final int oldLevel =
-				previousRssi <= 10 ?
-						0 :
-						previousRssi <= 28 ?
-								1 :
-								previousRssi <= 45 ?
-										2 :
-										previousRssi <= 65 ?
-												3 :
-												4;
-		return newLevel != oldLevel;
-	}
+    // Parcelable implementation
+    private constructor(`in`: Parcel) {
+        device = `in`.readParcelable(BluetoothDevice::class.java.classLoader)!!
+        lastScanResult = `in`.readParcelable(ScanResult::class.java.classLoader)
+        name = `in`.readString()
+        rssi = `in`.readInt()
+        previousRssi = `in`.readInt()
+        highestRssi = `in`.readInt()
+    }
 
-	/**
-	 * Updates the device values based on the scan result.
-	 *
-	 * @param scanResult the new received scan result.
-	 */
-	public void update(@NonNull final ScanResult scanResult) {
-		lastScanResult = scanResult;
-		name = scanResult.getScanRecord() != null ?
-				scanResult.getScanRecord().getDeviceName() : null;
-		previousRssi = rssi;
-		rssi = scanResult.getRssi();
-		if (highestRssi < rssi)
-			highestRssi = rssi;
-	}
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(device, flags)
+        parcel.writeParcelable(lastScanResult, flags)
+        parcel.writeString(name)
+        parcel.writeInt(rssi)
+        parcel.writeInt(previousRssi)
+        parcel.writeInt(highestRssi)
+    }
 
-	public boolean matches(@NonNull final ScanResult scanResult) {
-		return device.getAddress().equals(scanResult.getDevice().getAddress());
-	}
+    override fun describeContents(): Int {
+        return 0
+    }
 
-	@Override
-	public int hashCode() {
-		return device.hashCode();
-	}
+    companion object {
+        @JvmField val CREATOR: Parcelable.Creator<DiscoveredBluetoothDevice> =
+            object : Parcelable.Creator<DiscoveredBluetoothDevice> {
+                @Contract("_ -> new")
+                override fun createFromParcel(source: Parcel): DiscoveredBluetoothDevice {
+                    return DiscoveredBluetoothDevice(source)
+                }
 
-	@Override
-	public boolean equals(final Object o) {
-		if (o instanceof DiscoveredBluetoothDevice) {
-			final DiscoveredBluetoothDevice that = (DiscoveredBluetoothDevice) o;
-			return device.getAddress().equals(that.device.getAddress());
-		}
-		return super.equals(o);
-	}
-
-	// Parcelable implementation
-
-	private DiscoveredBluetoothDevice(final @NotNull Parcel in) {
-		device = in.readParcelable(BluetoothDevice.class.getClassLoader());
-		lastScanResult = in.readParcelable(ScanResult.class.getClassLoader());
-		name = in.readString();
-		rssi = in.readInt();
-		previousRssi = in.readInt();
-		highestRssi = in.readInt();
-	}
-
-	@Override
-	public void writeToParcel(final @NotNull Parcel parcel, final int flags) {
-		parcel.writeParcelable(device, flags);
-		parcel.writeParcelable(lastScanResult, flags);
-		parcel.writeString(name);
-		parcel.writeInt(rssi);
-		parcel.writeInt(previousRssi);
-		parcel.writeInt(highestRssi);
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	public static final Creator<DiscoveredBluetoothDevice> CREATOR = new Creator<DiscoveredBluetoothDevice>() {
-		@Contract("_ -> new")
-		@Override
-		public @NotNull DiscoveredBluetoothDevice createFromParcel(final Parcel source) {
-			return new DiscoveredBluetoothDevice(source);
-		}
-
-		@Override
-		public DiscoveredBluetoothDevice @NotNull [] newArray(final int size) {
-			return new DiscoveredBluetoothDevice[size];
-		}
-	};
+                override fun newArray(size: Int): Array<DiscoveredBluetoothDevice?> {
+                    return arrayOfNulls(size)
+                }
+            }
+    }
 }

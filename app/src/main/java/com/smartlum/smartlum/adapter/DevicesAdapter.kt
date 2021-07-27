@@ -1,97 +1,81 @@
-package com.smartlum.smartlum.adapter;
+package com.smartlum.smartlum.adapter
 
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.smartlum.smartlum.R
+import com.smartlum.smartlum.ui.ScannerFragment
+import com.smartlum.smartlum.viewmodels.DevicesLiveData
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
+class DevicesAdapter(
+    scannerFragment: ScannerFragment,
+    devicesLiveData: DevicesLiveData
+) : RecyclerView.Adapter<DevicesAdapter.ViewHolder>() {
+    private var devices: List<DiscoveredBluetoothDevice?>? = null
+    private var onItemClickListener: OnItemClickListener? = null
 
-import com.smartlum.smartlum.R;
-import com.smartlum.smartlum.ui.ScannerFragment;
-import com.smartlum.smartlum.viewmodels.DevicesLiveData;
+    fun interface OnItemClickListener {
+        fun onItemClick(device: DiscoveredBluetoothDevice)
+    }
 
-import java.util.List;
+    fun setOnItemClickListener(listener: OnItemClickListener?) {
+        onItemClickListener = listener
+    }
 
-@SuppressWarnings("unused")
-public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
-	private List<DiscoveredBluetoothDevice> devices;
-	private OnItemClickListener onItemClickListener;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.device_item, parent, false)
+        return ViewHolder(layoutView)
+    }
 
-	@FunctionalInterface
-	public interface OnItemClickListener {
-		void onItemClick(@NonNull final DiscoveredBluetoothDevice device);
-	}
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val device = devices?.get(position)
+        val deviceName = device?.name
+        if (!TextUtils.isEmpty(deviceName)) holder.deviceName.text =
+            deviceName else holder.deviceName.setText(R.string.unknown_device)
+        val rssiPercent = (100.0f * (127.0f + (device?.rssi ?: 0)) / (127.0f + 20.0f)).toInt()
+        holder.rssi.setImageLevel(rssiPercent)
+    }
 
-	public void setOnItemClickListener(final OnItemClickListener listener) {
-		onItemClickListener = listener;
-	}
+    override fun getItemId(position: Int): Long {
+        return devices?.get(position).hashCode().toLong()
+    }
 
-	public DevicesAdapter(@NonNull final ScannerFragment scannerFragment,
-						  @NonNull final DevicesLiveData devicesLiveData) {
-		setHasStableIds(true);
-		devicesLiveData.observe(scannerFragment.requireActivity(), newDevices -> {
-			final DiffUtil.DiffResult result = DiffUtil.calculateDiff(
-					new DeviceDiffCallback(devices, newDevices), false);
-			devices = newDevices;
-			result.dispatchUpdatesTo(this);
-		});
-	}
+    override fun getItemCount(): Int {
+        return devices?.size ?: 0
+    }
 
-	@NonNull
-	@Override
-	public ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
-		final View layoutView = LayoutInflater.from(parent.getContext())
-				.inflate(R.layout.device_item, parent, false);
-		return new ViewHolder(layoutView);
-	}
+    val isEmpty: Boolean
+        get() = itemCount == 0
 
-	@Override
-	public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-		final DiscoveredBluetoothDevice device = devices.get(position);
-		final String deviceName = device.getName();
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val deviceName: TextView = view.findViewById(R.id.device_name)
+        val rssi: ImageView = view.findViewById(R.id.rssi)
 
-		if (!TextUtils.isEmpty(deviceName))
-			holder.deviceName.setText(deviceName);
-		else
-			holder.deviceName.setText(R.string.unknown_device);
-		final int rssiPercent = (int) (100.0f * (127.0f + device.getRssi()) / (127.0f + 20.0f));
-		holder.rssi.setImageLevel(rssiPercent);
-	}
+        init {
+            view.findViewById<View>(R.id.device_container).setOnClickListener {
+                devices?.get(adapterPosition)?.let { it1 -> onItemClickListener?.onItemClick(it1) }
+            }
+        }
+    }
 
-	@Override
-	public long getItemId(final int position) {
-		return devices.get(position).hashCode();
-	}
-
-	@Override
-	public int getItemCount() {
-		return devices != null ? devices.size() : 0;
-	}
-
-	public boolean isEmpty() {
-		return getItemCount() == 0;
-	}
-
-	final class ViewHolder extends RecyclerView.ViewHolder {
-		private final TextView deviceName;
-		private final ImageView rssi;
-
-		private ViewHolder(@NonNull final View view) {
-			super(view);
-
-			deviceName 	  = view.findViewById(R.id.device_name);
-			rssi 		  = view.findViewById(R.id.rssi);
-
-			view.findViewById(R.id.device_container).setOnClickListener(v -> {
-				if (onItemClickListener != null) {
-					onItemClickListener.onItemClick(devices.get(getAdapterPosition()));
-				}
-			});
-		}
-	}
+    init {
+        setHasStableIds(true)
+        devicesLiveData.observe(
+            scannerFragment.requireActivity(),
+            { newDevices: List<DiscoveredBluetoothDevice?>? ->
+                devices = newDevices
+                val result = DiffUtil.calculateDiff(
+                    DeviceDiffCallback(devices as List<DiscoveredBluetoothDevice>?,
+                        newDevices as List<DiscoveredBluetoothDevice>?
+                    ), false
+                )
+                result.dispatchUpdatesTo(this)
+            })
+    }
 }
